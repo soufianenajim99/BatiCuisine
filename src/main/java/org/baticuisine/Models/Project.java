@@ -32,7 +32,17 @@ public class Project {
         this.devis = devis;
     }
 
-    public Project(int id, String nomProjet, double surface, double margeBeneficiaire, double coutTotal, EtatProject etatProjet, Client client, Devis devis) {
+    public Project(int id, String nomProjet, double margeBeneficiaire, double coutTotal,EtatProject etatProjet,double surface) {
+        this();
+        this.id = id;
+        this.nomProjet = nomProjet;
+        this.margeBeneficiaire = margeBeneficiaire;
+        this.coutTotal = coutTotal;
+        this.etatProjet = etatProjet;
+        this.surface = surface;
+    }
+
+    public Project(int id, String nomProjet, double margeBeneficiaire,double coutTotal,EtatProject etatProjet,double surface,   Client client) {
         this();
         this.id = id;
         this.nomProjet = nomProjet;
@@ -41,7 +51,6 @@ public class Project {
         this.coutTotal = coutTotal;
         this.etatProjet = etatProjet;
         this.client = client;
-        this.devis = devis;
     }
 
     public int getId() {
