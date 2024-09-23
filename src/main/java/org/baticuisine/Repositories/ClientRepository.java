@@ -7,6 +7,7 @@ import org.baticuisine.Utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ClientRepository implements ClientRepositoryInterface {
     private Connection connection;
@@ -54,6 +55,28 @@ public class ClientRepository implements ClientRepositoryInterface {
                 );
             }
         } catch (SQLException e) {
+            System.out.println("Error finding client: " + e.getMessage());
+        }
+        return client;
+    }
+
+    @Override
+    public Optional<Client> findByEmail(String email) {
+        String query = "SELECT * FROM clients WHERE email = ?";
+        Optional<Client> client = Optional.empty();
+        try(PreparedStatement stmt = connection.prepareStatement(query)){
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                client = Optional.of(new Client(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("adresse"),
+                        rs.getString("telephone"),
+                        rs.getBoolean("estprofessionnel")
+                ));
+            }
+        }catch (SQLException e) {
             System.out.println("Error finding client: " + e.getMessage());
         }
         return client;
