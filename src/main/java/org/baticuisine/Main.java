@@ -1,17 +1,41 @@
 package org.baticuisine;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import org.baticuisine.Models.Client;
+import org.baticuisine.Repositories.ClientRepository;
+import org.baticuisine.Services.ClientService;
+import org.baticuisine.Utils.DatabaseConnection;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
+
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
-    }
+
+        ClientRepository clientRepository = new ClientRepository();
+        ClientService clientService = new ClientService(clientRepository);
+
+        // Add a new client
+        Client newClient = new Client("John Doe", "123 Elm Street", "555-1234", false);
+        clientService.addClient(newClient);
+
+        // Retrieve all clients
+        List<Client> clients = clientService.getAllClients();
+        clients.forEach(System.out::println);
+
+        // Get client by ID
+        Client client = clientService.getClientById(1);
+        System.out.println(client);
+
+        // Delete a client by ID
+        clientService.removeClient(1);
+
+
+
+}
 }
