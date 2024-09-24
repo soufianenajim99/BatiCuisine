@@ -53,9 +53,12 @@ public class ProjectMenu {
         }
 
         public void showProjects() {
-            // For simplicity, display a static message. You can later integrate with a real project repository.
+       
             System.out.println("--- Afficher les Projets Existant ---");
-            System.out.println("Aucun projet à afficher pour le moment.");
+            for (Project project : projectService.getAllProjects()) {
+                System.out.println(project);
+            }
+
         }
 
         public void calculateProjectCost(Project project) {
