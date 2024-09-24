@@ -39,7 +39,7 @@ public class ProjectRepository implements ProjectRepositoryInterface {
                 ps.setInt(7, project.getId());
             }
             int affectedRows=ps.executeUpdate();
-            if (affectedRows > 0) {
+            if (affectedRows > 0 && project.getId() == 0) {
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         project.setId(generatedKeys.getInt(1));

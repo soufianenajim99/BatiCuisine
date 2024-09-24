@@ -37,7 +37,7 @@ public class MaterielRepository implements MaterielRepositoryInterface {
                 stmt.setInt(7, materiel.getId());
             }
             int affectedRows =stmt.executeUpdate();
-            if (affectedRows > 0) {
+            if (affectedRows > 0 && materiel.getId() == 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         materiel.setId(generatedKeys.getInt(1));
