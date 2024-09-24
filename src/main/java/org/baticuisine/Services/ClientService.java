@@ -2,14 +2,16 @@ package org.baticuisine.Services;
 
 import org.baticuisine.Models.Client;
 import org.baticuisine.Repositories.ClientRepository;
+import org.baticuisine.Services.ServicesInterfaces.ClientServiceInterface;
 
 import java.util.List;
+import java.util.Optional;
 
-public class ClientService {
+public class ClientService implements ClientServiceInterface {
     private ClientRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ClientService() {
+        this.clientRepository = new ClientRepository();
     }
 
     public void addClient(Client client) {
@@ -22,6 +24,10 @@ public class ClientService {
 
     public List<Client> getAllClients() {
         return clientRepository.findAll();
+    }
+
+    public Optional<Client> getClientByName(String name){
+        return clientRepository.findByName(name);
     }
 
     public void removeClient(int id) {

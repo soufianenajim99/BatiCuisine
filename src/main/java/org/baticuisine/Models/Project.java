@@ -10,7 +10,7 @@ public class Project {
     private double surface;
     private double margeBeneficiaire;
     private double coutTotal;
-    private EtatProject etatProjet;
+    private EtatProject etatProjet=EtatProject.EN_COURS;
     private Client client;
     private ArrayList<Materiel> materielsList;
     private ArrayList<Personnel> personnelList;
@@ -21,15 +21,11 @@ public class Project {
         this.personnelList = new ArrayList<>();
     }
 
-    public Project(String nomProjet, double surface, double margeBeneficiaire, double coutTotal, EtatProject etatProjet, Client client, Devis devis) {
+    public Project(String nomProjet, double surface, Client client) {
         this();
         this.nomProjet = nomProjet;
         this.surface = surface;
-        this.margeBeneficiaire = margeBeneficiaire;
-        this.coutTotal = coutTotal;
-        this.etatProjet = etatProjet;
         this.client = client;
-        this.devis = devis;
     }
 
     public Project(int id, String nomProjet, double margeBeneficiaire, double coutTotal,EtatProject etatProjet,double surface) {
