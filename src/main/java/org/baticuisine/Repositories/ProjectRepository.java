@@ -65,13 +65,13 @@ public class ProjectRepository implements ProjectRepositoryInterface {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                Client client = clientRepository.findById(rs.getInt("clientid"));
+                Client client = clientRepository.findById(rs.getInt("client_id"));
                 project = Optional.of(new Project(
                             rs.getInt("id"),
                             rs.getString("nomprojet"),
                             rs.getDouble("margebeneficiaire"),
                             rs.getDouble("couttotal"),
-                            EtatProject.valueOf(rs.getString("etatprojet")),
+                            EtatProject.valueOf(rs.getString("projectstatus")),
                             rs.getDouble("surface"),
                             client
 
@@ -92,13 +92,13 @@ public class ProjectRepository implements ProjectRepositoryInterface {
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                Client client = clientRepository.findById(rs.getInt("clientid"));
+                Client client = clientRepository.findById(rs.getInt("client_id"));
                 Project project = new Project(
                         rs.getInt("id"),
                         rs.getString("nomprojet"),
                         rs.getDouble("margebeneficiaire"),
                         rs.getDouble("couttotal"),
-                        EtatProject.valueOf(rs.getString("etatprojet")),
+                        EtatProject.valueOf(rs.getString("projectstatus")),
                         rs.getDouble("surface"),
                         client
                 );

@@ -15,7 +15,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ProjectMenu {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private Scanner scanner = new Scanner(System.in);
         private final ClientMenu clientMenu;
         private final MaterielMenu materielMenu;
@@ -48,6 +49,7 @@ public class ProjectMenu {
             materielMenu.addingMoreMateriels(project);
             personnelMenu.addingMorePersonels(project);
             System.out.println("Projet créé avec succès : " + projectName);
+            calculateProjectCost(project);
         }
 
         public void showProjects() {
