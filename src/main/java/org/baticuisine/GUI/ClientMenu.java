@@ -61,7 +61,7 @@ public class ClientMenu {
                 estpro = true;
             }
             Client client = new Client(name, address, phone,estpro);
-            clientService.addClient(client);
+            client.setId(clientService.addClient(client).getId());
             System.out.println("Client ajouté avec succès !");
             return client;
         }

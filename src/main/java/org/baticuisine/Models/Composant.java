@@ -3,20 +3,18 @@ package org.baticuisine.Models;
 public class Composant {
     protected int id;
     protected String nom;
-    protected double tauxtva;
+
     protected Project project;
     public Composant() {}
 
-    public Composant(String nom, double tauxtva, Project project) {
+    public Composant(String nom, Project project) {
         this.nom = nom;
-        this.tauxtva = tauxtva;
         this.project = project;
     }
 
-    public Composant(int id, String nom, double tauxtva, Project project) {
+    public Composant(int id, String nom, Project project) {
         this.id = id;
         this.nom = nom;
-        this.tauxtva = tauxtva;
         this.project = project;
     }
 
@@ -36,13 +34,6 @@ public class Composant {
         this.nom = nom;
     }
 
-    public double getTauxtva() {
-        return tauxtva;
-    }
-
-    public void setTauxtva(double tauxtva) {
-        this.tauxtva = tauxtva;
-    }
 
     public Project getProject() {
         return project;
@@ -57,7 +48,6 @@ public class Composant {
         return "Composant{" +
                 "id=" + id +
                 ", nom='" + nom + '\'' +
-                ", tauxtva=" + tauxtva +
                 ", project=" + project +
                 '}';
     }

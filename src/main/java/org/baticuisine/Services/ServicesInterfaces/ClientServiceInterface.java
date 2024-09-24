@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClientServiceInterface {
-    void addClient(Client client);
+    Client addClient(Client client);
     Client getClientById(int id);
     List<Client> getAllClients();
     Optional<Client> getClientByName(String name);

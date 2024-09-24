@@ -14,8 +14,8 @@ public class ClientService implements ClientServiceInterface {
         this.clientRepository = new ClientRepository();
     }
 
-    public void addClient(Client client) {
-        clientRepository.save(client);
+    public Client addClient(Client client) {
+        return clientRepository.save(client);
     }
 
     public Client getClientById(int id) {

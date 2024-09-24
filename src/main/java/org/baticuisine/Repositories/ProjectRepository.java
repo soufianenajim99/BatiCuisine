@@ -21,29 +21,38 @@ public class ProjectRepository implements ProjectRepositoryInterface {
     }
 
     @Override
-    public void saveProject(Project project,Client client) {
+    public Project saveProject(Project project) {
         String query;
         if (this.findById(project.getId()).isPresent()) {
             query = "UPDATE projects SET nomprojet = ?, margebeneficiaire = ?,couttotal = ? ,client_id = ?, projectstatus = ?, surface = ? WHERE id = ? ";
         } else {
             query = "INSERT INTO projects (nomprojet, margebeneficiaire, couttotal,client_id,projectstatus, surface) VALUES (?, ?, ?, ?,?,?)";
         }
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try(PreparedStatement ps = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
              ps.setString(1,project.getNomProjet());
              ps.setDouble(2,project.getMargeBeneficiaire());
              ps.setDouble(3,project.getCoutTotal());
-             ps.setInt(4,client.getId());
+             ps.setInt(4,project.getClient().getId());
              ps.setObject(5, EtatProject.EN_COURS, java.sql.Types.OTHER);
              ps.setDouble(6,project.getSurface());
             if (project.getId() != 0) {
-                ps.setInt(7, client.getId());
+                ps.setInt(7, project.getId());
             }
-            ps.executeUpdate();
-
+            int affectedRows=ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        project.setId(generatedKeys.getInt(1));
+                    } else {
+                        throw new SQLException("Failed to obtain the project ID.");
+                    }
+                }
+            }
         }catch (SQLException e){
             e.printStackTrace();
 
         }
+        return project;
 
     }
 

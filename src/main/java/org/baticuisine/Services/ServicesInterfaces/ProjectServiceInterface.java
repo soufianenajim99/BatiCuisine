@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProjectServiceInterface {
-    void createProject(Project project, Client client);
+    Project createProject(Project project);
     Optional<Project> getProjectById(int id);
     List<Project> getAllProjects();
     void removeProject(int id);

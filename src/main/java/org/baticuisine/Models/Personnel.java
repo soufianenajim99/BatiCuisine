@@ -9,15 +9,15 @@ public class Personnel extends Composant{
     }
 
 
-    public Personnel(String nom, double tauxtva, Project project, double tauxHoraire, double heuresTravail, double productiviteOuvrier) {
-        super(nom, tauxtva, project);
+    public Personnel(String nom, Project project, double tauxHoraire, double heuresTravail, double productiviteOuvrier) {
+        super(nom, project);
         this.tauxHoraire = tauxHoraire;
         this.heuresTravail = heuresTravail;
         this.productiviteOuvrier = productiviteOuvrier;
     }
 
-    public Personnel(int id, String nom, double tauxtva, Project project, double tauxHoraire, double heuresTravail, double productiviteOuvrier) {
-        super(id, nom, tauxtva, project);
+    public Personnel(int id, String nom, Project project, double tauxHoraire, double heuresTravail, double productiviteOuvrier) {
+        super(id, nom, project);
         this.tauxHoraire = tauxHoraire;
         this.heuresTravail = heuresTravail;
         this.productiviteOuvrier = productiviteOuvrier;
@@ -47,12 +47,15 @@ public class Personnel extends Composant{
         this.productiviteOuvrier = productiviteOuvrier;
     }
 
+    public double calculatepersonelCost() {
+        return tauxHoraire*productiviteOuvrier*heuresTravail;
+    }
+
     @Override
     public String toString() {
         return "Personnel{" +
                 ", id=" + id +
                 ", nom='" + nom + '\'' +
-                ", tauxtva=" + tauxtva +
                 ", project=" + project +
                 "tauxHoraire=" + tauxHoraire +
                 ", heuresTravail=" + heuresTravail +
