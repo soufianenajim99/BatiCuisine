@@ -9,12 +9,21 @@ public class Project {
     private String nomProjet;
     private double surface;
     private double margeBeneficiaire;
+    protected double tauxtva;
     private double coutTotal;
     private EtatProject etatProjet=EtatProject.EN_COURS;
     private Client client;
     private ArrayList<Materiel> materielsList;
     private ArrayList<Personnel> personnelList;
     private Devis devis;
+
+    public double getTauxtva() {
+        return tauxtva;
+    }
+
+    public void setTauxtva(double tauxtva) {
+        this.tauxtva = tauxtva;
+    }
 
     public Project() {
         this.materielsList = new ArrayList<>();
@@ -147,6 +156,7 @@ public class Project {
                         ", margeBeneficiaire=" + margeBeneficiaire +
                         ", coutTotal=" + coutTotal +
                         ", etatProjet=" + etatProjet +
+                        ", taux de TVA=" + tauxtva +
                         ", client=" + client;
 
 

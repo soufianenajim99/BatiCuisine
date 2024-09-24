@@ -17,14 +17,14 @@ public class ClientRepository implements ClientRepositoryInterface {
     }
 
     @Override
-    public void save(Client client) {
+    public Client save(Client client) {
         String query;
         if (this.findById(client.getId()) == null) {
             query = "INSERT INTO clients (nom, adresse, telephone, estprofessionnel) VALUES (?, ?, ?, ?)";
         } else {
             query = "UPDATE clients SET nom = ?, adresse = ?, telephone = ?, estprofessionnel = ? WHERE id = ?";
         }
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, client.getNom());
             stmt.setString(2, client.getAdresse());
             stmt.setString(3, client.getTelephone());
@@ -32,10 +32,22 @@ public class ClientRepository implements ClientRepositoryInterface {
             if (client.getId() != 0) {
                 stmt.setInt(5, client.getId());
             }
-            stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        client.setId(generatedKeys.getInt(1));
+                    } else {
+                        throw new SQLException("Failed to obtain the project ID.");
+                    }
+                }
+            }
+
+
         } catch (SQLException e) {
             System.out.println("Error saving client: " + e.getMessage());
         }
+        return client;
     }
 
     @Override

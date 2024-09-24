@@ -36,7 +36,7 @@ public class MainMenu {
                         projectMenu.showProjects();
                         break;
                     case 3:
-                        projectMenu.calculateProjectCost();
+//                        projectMenu.calculateProjectCost();
                         break;
                     case 4:
                         System.out.println("Merci d'avoir utilisé l'application.");

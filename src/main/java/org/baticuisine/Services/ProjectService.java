@@ -16,8 +16,8 @@ public class ProjectService implements ProjectServiceInterface {
     }
 
     @Override
-    public void createProject(Project project, Client client) {
-        projectRepository.saveProject(project, client);
+    public Project createProject(Project project) {
+        return projectRepository.saveProject(project);
     }
 
     @Override

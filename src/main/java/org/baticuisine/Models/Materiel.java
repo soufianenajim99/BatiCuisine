@@ -7,16 +7,16 @@ public class Materiel extends Composant{
     private double coefficientQualite;
     public Materiel() {}
 
-    public Materiel(String nom, double tauxtva, Project project, double coutUnitaire, double quantite, double coutTransport, double coefficientQualite) {
-        super(nom, tauxtva, project);
+    public Materiel(String nom, Project project, double coutUnitaire, double quantite, double coutTransport, double coefficientQualite) {
+        super(nom, project);
         this.coutUnitaire = coutUnitaire;
         this.quantite = quantite;
         this.coutTransport = coutTransport;
         this.coefficientQualite = coefficientQualite;
     }
 
-    public Materiel(int id, String nom, double tauxtva, Project project, double coutUnitaire, double quantite, double coutTransport, double coefficientQualite) {
-        super(id, nom, tauxtva, project);
+    public Materiel(int id, String nom, Project project, double coutUnitaire, double quantite, double coutTransport, double coefficientQualite) {
+        super(id, nom, project);
         this.coutUnitaire = coutUnitaire;
         this.quantite = quantite;
         this.coutTransport = coutTransport;
@@ -55,12 +55,14 @@ public class Materiel extends Composant{
         this.coefficientQualite = coefficientQualite;
     }
 
+    public double calculateTotalCost() {
+        return (quantite * coutUnitaire * coefficientQualite) + coutTransport;
+    }
     @Override
     public String toString() {
         return "Materiel{" +
                 ", id=" + id +
                 ", nom='" + nom + '\'' +
-                ", tauxtva=" + tauxtva +
                 ", project=" + project +
                 "coutUnitaire=" + coutUnitaire +
                 ", quantite=" + quantite +
