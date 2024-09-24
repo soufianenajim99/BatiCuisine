@@ -7,27 +7,38 @@ public class Devis {
     private double montantEstime;
     private LocalDate startDate;
     private LocalDate dateValidite;
+    private Project project;
     private boolean accepte;
     public Devis() {
     }
 
-    public Devis(double montantEstime, LocalDate startDate, LocalDate dateValidite, boolean accepte) {
+    public Devis(double montantEstime,Project project, LocalDate startDate, LocalDate dateValidite, boolean accepte) {
         this.montantEstime = montantEstime;
         this.startDate = startDate;
         this.dateValidite = dateValidite;
+        this.project = project;
         this.accepte = accepte;
     }
 
-    public Devis(int id, double montantEstime, LocalDate startDate, LocalDate dateValidite, boolean accepte) {
+    public Devis(int id, double montantEstime,Project project, LocalDate startDate, LocalDate dateValidite, boolean accepte) {
         this.id = id;
         this.montantEstime = montantEstime;
         this.startDate = startDate;
         this.dateValidite = dateValidite;
+        this.project = project;
         this.accepte = accepte;
     }
 
     public int getId() {
         return id;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public void setId(int id) {

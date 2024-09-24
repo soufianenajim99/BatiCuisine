@@ -35,7 +35,7 @@ public class PersonnelRepository implements PersonnelRepositoryInterface {
                 stmt.setInt(6, personnel.getId());
             }
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
+            if (affectedRows > 0 && personnel.getId() == 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         personnel.setId(generatedKeys.getInt(1));

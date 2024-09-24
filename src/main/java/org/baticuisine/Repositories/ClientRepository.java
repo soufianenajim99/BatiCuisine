@@ -33,7 +33,7 @@ public class ClientRepository implements ClientRepositoryInterface {
                 stmt.setInt(5, client.getId());
             }
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
+            if (affectedRows > 0 && client.getId() == 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         client.setId(generatedKeys.getInt(1));
