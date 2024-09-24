@@ -12,6 +12,8 @@ import org.baticuisine.Services.ServicesInterfaces.ProjectServiceInterface;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ProjectMenu {
@@ -60,6 +62,24 @@ public class ProjectMenu {
             }
 
         }
+        public void showProjectsCost() {
+            System.out.println("--- Afficher les Projets Existants ---");
+            List<Project> projects = projectService.getAllProjects();
+            for (int i = 0; i < projects.size(); i++) {
+                System.out.println((i + 1) + ". " + projects.get(i).getNomProjet());
+            }
+
+            System.out.print("Choisissez un projet pour voir les détails (1-" + projects.size() + ") : ");
+            int choice = scanner.nextInt();
+            if (choice < 1 || choice > projects.size()) {
+                System.out.println("Choix non valide.");
+                return;
+            }
+
+            Project selectedProject = projects.get(choice - 1);
+            System.out.printf("**Coût total du projet '%s' : %.2f €**%n", selectedProject.getNomProjet(), selectedProject.getCoutTotal());
+
+        }
 
         public void calculateProjectCost(Project project) {
             System.out.println("--- Calcul du coût total ---");
@@ -81,28 +101,19 @@ public class ProjectMenu {
                 marginPercentage = scanner.nextDouble();
                 project.setMargeBeneficiaire(marginPercentage);
             }
+            projectService.createProject(project);
 
-            // Calculating total material costs
-            double totalMaterialCost = project.getMaterielsList().stream().mapToDouble(Materiel::calculateTotalCost).sum();
-            double totalMaterialCostWithTVA = applyTVA ? totalMaterialCost * (1 + tvaPercentage / 100) : totalMaterialCost;
+            Map<String, Double> costDetails = devisService.calculateTotalCost(project, tvaPercentage, marginPercentage);
 
-            // Calculating total labor costs
-            double totalpersonelCost = project.getPersonnelList().stream().mapToDouble(Personnel::calculatepersonelCost).sum();
-            double totalpersonelCostWithTVA = applyTVA ? totalpersonelCost * (1 + tvaPercentage / 100) : totalpersonelCost;
-
-            // Total cost before profit margin
-            double totalCostBeforeMargin = totalMaterialCost + totalpersonelCost;
-            double totalCostWithTVA = totalMaterialCostWithTVA + totalpersonelCostWithTVA;
-
-            // Applying profit margin
-            double profitMargin = totalCostBeforeMargin * (marginPercentage / 100);
-            double finalTotalCost = totalCostWithTVA + profitMargin;
 
             // Display the breakdown of costs
-            displayCostBreakdown(project,tvaPercentage,marginPercentage, totalMaterialCost, totalMaterialCostWithTVA, totalpersonelCost, totalpersonelCostWithTVA, totalCostBeforeMargin, profitMargin, finalTotalCost);
+
+            displayCostBreakdown(project,tvaPercentage,marginPercentage, costDetails.get("totalMaterialCost"),  costDetails.get("totalMaterialCostWithTVA"),
+                    costDetails.get("totalPersonnelCost"), costDetails.get("totalPersonnelCostWithTVA"),
+                    costDetails.get("totalCostBeforeMargin"), costDetails.get("profitMargin"), costDetails.get("finalTotalCost"));
 
             // Save the project devis
-            saveDevis(project, finalTotalCost);
+            saveDevis(project, costDetails.get("finalTotalCost"));
         }
 
     private void saveDevis(Project project, double finalTotalCost) {
@@ -152,7 +163,7 @@ public class ProjectMenu {
         System.out.printf("**Coût total des matériaux avant TVA : %.2f €**%n", totalMaterialCost);
         System.out.printf("**Coût total des matériaux avec TVA (%.1f%%) : %.2f €**%n", tvaPercentage, totalMaterialCostWithTVA);
 
-        // Labor Costs
+        // Personnel Costs
         System.out.println("2. Main-d'œuvre :");
         project.getPersonnelList().forEach(personnel -> {
             System.out.printf("- %s : %.2f € (taux horaire : %.2f €/h, heures travaillées : %.2f h, productivité : %.1f)%n",

@@ -47,9 +47,10 @@ public class Project {
         this.surface = surface;
     }
 
-    public Project(int id, String nomProjet, double margeBeneficiaire,double coutTotal,EtatProject etatProjet,double surface,   Client client) {
+    public Project(int id,double tauxtva, String nomProjet, double margeBeneficiaire,double coutTotal,EtatProject etatProjet,double surface,   Client client) {
         this();
         this.id = id;
+        this.tauxtva = tauxtva;
         this.nomProjet = nomProjet;
         this.surface = surface;
         this.margeBeneficiaire = margeBeneficiaire;

@@ -24,19 +24,20 @@ public class ProjectRepository implements ProjectRepositoryInterface {
     public Project saveProject(Project project) {
         String query;
         if (this.findById(project.getId()).isPresent()) {
-            query = "UPDATE projects SET nomprojet = ?, margebeneficiaire = ?,couttotal = ? ,client_id = ?, projectstatus = ?, surface = ? WHERE id = ? ";
+            query = "UPDATE projects SET nomprojet = ?, margebeneficiaire = ?,couttotal = ? ,client_id = ?, projectstatus = ?, surface = ? ,tauxtva = ? WHERE id = ? ";
         } else {
-            query = "INSERT INTO projects (nomprojet, margebeneficiaire, couttotal,client_id,projectstatus, surface) VALUES (?, ?, ?, ?,?,?)";
+            query = "INSERT INTO projects (nomprojet, margebeneficiaire, couttotal,client_id,projectstatus, surface,tauxtva) VALUES (?, ?, ?, ?,?,?,?)";
         }
         try(PreparedStatement ps = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
              ps.setString(1,project.getNomProjet());
              ps.setDouble(2,project.getMargeBeneficiaire());
              ps.setDouble(3,project.getCoutTotal());
              ps.setInt(4,project.getClient().getId());
-             ps.setObject(5, EtatProject.EN_COURS, java.sql.Types.OTHER);
+             ps.setObject(5, project.getEtatProjet(), java.sql.Types.OTHER);
              ps.setDouble(6,project.getSurface());
+             ps.setDouble(7,project.getTauxtva());
             if (project.getId() != 0) {
-                ps.setInt(7, project.getId());
+                ps.setInt(8, project.getId());
             }
             int affectedRows=ps.executeUpdate();
             if (affectedRows > 0 && project.getId() == 0) {
@@ -68,6 +69,7 @@ public class ProjectRepository implements ProjectRepositoryInterface {
                 Client client = clientRepository.findById(rs.getInt("client_id"));
                 project = Optional.of(new Project(
                             rs.getInt("id"),
+                        rs.getDouble("tauxtva"),
                             rs.getString("nomprojet"),
                             rs.getDouble("margebeneficiaire"),
                             rs.getDouble("couttotal"),
@@ -95,6 +97,8 @@ public class ProjectRepository implements ProjectRepositoryInterface {
                 Client client = clientRepository.findById(rs.getInt("client_id"));
                 Project project = new Project(
                         rs.getInt("id"),
+                        rs.getDouble("tauxtva"),
+
                         rs.getString("nomprojet"),
                         rs.getDouble("margebeneficiaire"),
                         rs.getDouble("couttotal"),

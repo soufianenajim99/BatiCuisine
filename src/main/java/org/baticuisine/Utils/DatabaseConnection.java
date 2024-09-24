@@ -11,8 +11,8 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         if (connection == null) {
             String url = "jdbc:postgresql://localhost:5432/Baticuisine";
-            String user = "baeldung";
-            String password = "baeldung";
+            String user = "admin";
+            String password = "admin";
             try {
                 connection = DriverManager.getConnection(url, user, password);
             } catch (SQLException ex) {
