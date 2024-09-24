@@ -1,10 +1,8 @@
 package org.baticuisine.GUI;
 
+import org.baticuisine.Enums.EtatProject;
 import org.baticuisine.Helpers.Helpers;
-import org.baticuisine.Models.Client;
-import org.baticuisine.Models.Materiel;
-import org.baticuisine.Models.Personnel;
-import org.baticuisine.Models.Project;
+import org.baticuisine.Models.*;
 import org.baticuisine.Services.ClientService;
 import org.baticuisine.Services.ProjectService;
 import org.baticuisine.Services.ServicesInterfaces.ClientServiceInterface;
@@ -93,7 +91,7 @@ public class ProjectMenu {
             // Display the breakdown of costs
             displayCostBreakdown(project,tvaPercentage,marginPercentage, totalMaterialCost, totalMaterialCostWithTVA, totalpersonelCost, totalpersonelCostWithTVA, totalCostBeforeMargin, profitMargin, finalTotalCost);
 
-            // Save the project quotation (optional)
+            // Save the project devis
             saveDevis(project, finalTotalCost);
         }
 
@@ -106,12 +104,14 @@ public class ProjectMenu {
 
         boolean save = Helpers.askYesNo("Souhaitez-vous enregistrer le devis ? (y/n) : ");
         if (save) {
-//            project.setCoutTotal(finalTotalCost);
-//            project.setDateEmission(dateEmission);
-//            project.setDateValidite(dateValidite);
-//            // Assuming projectService is handling the save operation.
-//            projectService.saveProject(project);
-//            System.out.println("Devis enregistré avec succès !");
+            project.setCoutTotal(finalTotalCost);
+            project.setEtatProjet(EtatProject.TERMINE);
+            Devis devis = new Devis(finalTotalCost,project,dateEmission,dateValidite,true);
+            project.setDateEmission(dateEmission);
+            project.setDateValidite(dateValidite);
+            // Assuming projectService is handling the save operation.
+            projectService.saveProject(project);
+            System.out.println("Devis enregistré avec succès !");
         } else {
             System.out.println("Devis non enregistré.");
         }
