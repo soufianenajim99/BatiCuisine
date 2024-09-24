@@ -4,19 +4,24 @@ import org.baticuisine.Enums.EtatProject;
 import org.baticuisine.Helpers.Helpers;
 import org.baticuisine.Models.*;
 import org.baticuisine.Services.ClientService;
+import org.baticuisine.Services.DevisService;
 import org.baticuisine.Services.ProjectService;
 import org.baticuisine.Services.ServicesInterfaces.ClientServiceInterface;
+import org.baticuisine.Services.ServicesInterfaces.DevisServiceInterface;
 import org.baticuisine.Services.ServicesInterfaces.ProjectServiceInterface;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ProjectMenu {
-
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private Scanner scanner = new Scanner(System.in);
         private final ClientMenu clientMenu;
         private final MaterielMenu materielMenu;
         private final PersonnelMenu personnelMenu;
     private final ProjectServiceInterface projectService = new ProjectService();
+    private final DevisServiceInterface devisService = new DevisService();
         public ProjectMenu() {
             this.clientMenu = new ClientMenu();
             this.materielMenu = new MaterielMenu();
@@ -99,18 +104,20 @@ public class ProjectMenu {
         System.out.println("--- Enregistrement du Devis ---");
         System.out.print("Entrez la date d'émission du devis (format : jj/mm/aaaa) : ");
         String dateEmission = scanner.next();
+        LocalDate emissionDate = LocalDate.parse(dateEmission, formatter);
         System.out.print("Entrez la date de validité du devis (format : jj/mm/aaaa) : ");
         String dateValidite = scanner.next();
+        LocalDate validiteDate = LocalDate.parse(dateValidite, formatter);
+
 
         boolean save = Helpers.askYesNo("Souhaitez-vous enregistrer le devis ? (y/n) : ");
         if (save) {
             project.setCoutTotal(finalTotalCost);
             project.setEtatProjet(EtatProject.TERMINE);
-            Devis devis = new Devis(finalTotalCost,project,dateEmission,dateValidite,true);
-            project.setDateEmission(dateEmission);
-            project.setDateValidite(dateValidite);
-            // Assuming projectService is handling the save operation.
-            projectService.saveProject(project);
+            Devis devis = new Devis(finalTotalCost,project,emissionDate,validiteDate,true);
+
+            projectService.createProject(project);
+            devisService.createDevis(devis);
             System.out.println("Devis enregistré avec succès !");
         } else {
             System.out.println("Devis non enregistré.");
