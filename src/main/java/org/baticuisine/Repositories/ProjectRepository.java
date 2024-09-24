@@ -33,7 +33,7 @@ public class ProjectRepository implements ProjectRepositoryInterface {
              ps.setDouble(2,project.getMargeBeneficiaire());
              ps.setDouble(3,project.getCoutTotal());
              ps.setInt(4,client.getId());
-             ps.setString(5, project.getEtatProjet().name());
+             ps.setObject(5, EtatProject.EN_COURS, java.sql.Types.OTHER);
              ps.setDouble(6,project.getSurface());
             if (project.getId() != 0) {
                 ps.setInt(7, client.getId());

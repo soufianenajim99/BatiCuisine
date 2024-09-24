@@ -61,11 +61,11 @@ public class ClientRepository implements ClientRepositoryInterface {
     }
 
     @Override
-    public Optional<Client> findByEmail(String email) {
-        String query = "SELECT * FROM clients WHERE email = ?";
+    public Optional<Client> findByName(String name) {
+        String query = "SELECT * FROM clients WHERE nom = ?";
         Optional<Client> client = Optional.empty();
         try(PreparedStatement stmt = connection.prepareStatement(query)){
-            stmt.setString(1, email);
+            stmt.setString(1, name);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 client = Optional.of(new Client(

@@ -1,5 +1,6 @@
 package org.baticuisine;
 
+import org.baticuisine.GUI.MainMenu;
 import org.baticuisine.Models.Client;
 import org.baticuisine.Repositories.ClientRepository;
 import org.baticuisine.Services.ClientService;
@@ -15,25 +16,26 @@ import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.display();
 
-
-        ClientRepository clientRepository = new ClientRepository();
-        ClientService clientService = new ClientService(clientRepository);
-
-        // Add a new client
-        Client newClient = new Client("John Doe", "123 Elm Street", "555-1234", false);
-        clientService.addClient(newClient);
-
-        // Retrieve all clients
-        List<Client> clients = clientService.getAllClients();
-        clients.forEach(System.out::println);
-
-        // Get client by ID
-        Client client = clientService.getClientById(1);
-        System.out.println(client);
-
-        // Delete a client by ID
-        clientService.removeClient(1);
+//        ClientRepository clientRepository = new ClientRepository();
+//        ClientService clientService = new ClientService(clientRepository);
+//
+//        // Add a new client
+//        Client newClient = new Client("John Doe", "123 Elm Street", "555-1234", false);
+//        clientService.addClient(newClient);
+//
+//        // Retrieve all clients
+//        List<Client> clients = clientService.getAllClients();
+//        clients.forEach(System.out::println);
+//
+//        // Get client by ID
+//        Client client = clientService.getClientById(1);
+//        System.out.println(client);
+//
+//        // Delete a client by ID
+//        clientService.removeClient(1);
 
 
 
