@@ -164,7 +164,7 @@ public class ProjectMenu {
         System.out.printf("**Coût total des matériaux avec TVA (%.1f%%) : %.2f €**%n", tvaPercentage, totalMaterialCostWithTVA);
 
         // Personnel Costs
-        System.out.println("2. Main-d'œuvre :");
+        System.out.println("2. Personnel :");
         project.getPersonnelList().forEach(personnel -> {
             System.out.printf("- %s : %.2f € (taux horaire : %.2f €/h, heures travaillées : %.2f h, productivité : %.1f)%n",
                     personnel.getNom(), personnel.calculatepersonelCost(), personnel.getTauxHoraire(), personnel.getHeuresTravail(),
